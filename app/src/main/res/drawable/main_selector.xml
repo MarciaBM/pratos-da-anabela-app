@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+    <item>
+        <shape>
+            <gradient
+                android:angle="0"
+                android:startColor="#FF512F"
+                android:centerColor="#F09819"
+                android:endColor="#FF512F"
+                android:type="linear" />
+            <!-- ?>.btn-grad {background-image: linear-gradient(to right, #FF512F 0%, #F09819 51%, #FF512F 100%)}
+            .btn-grad:hover { background-position: right center; } butao -->
+        </shape>
+    </item>
+</selector>
