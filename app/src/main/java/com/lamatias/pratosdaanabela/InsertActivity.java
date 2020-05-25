@@ -1,7 +1,5 @@
 package com.lamatias.pratosdaanabela;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -12,11 +10,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.lamatias.pratosdaanabela.exceptions.EmptyFieldsException;
 import com.lamatias.pratosdaanabela.exceptions.FoodAlreadyExists;
 import com.lamatias.pratosdaanabela.exceptions.NoUsersSelected;
 import com.lamatias.pratosdaanabela.logic.App;
-import com.lamatias.pratosdaanabela.logic.Names;
+import com.lamatias.pratosdaanabela.logic.AppClass;
 import com.lamatias.pratosdaanabela.logic.User;
 
 import java.io.File;
@@ -27,7 +27,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.lamatias.pratosdaanabela.logic.Names.B;
 
 public class InsertActivity extends AppCompatActivity {
 
@@ -100,15 +99,15 @@ public class InsertActivity extends AppCompatActivity {
 
             List<User> temp = new ArrayList<>();
             if(B.isChecked())
-                temp.add(app.getUser(Names.B));
+                temp.add(app.getUser(AppClass.B));
             if(G.isChecked())
-                temp.add(app.getUser(Names.G));
+                temp.add(app.getUser(AppClass.G));
             if(M.isChecked())
-                temp.add(app.getUser(Names.M));
+                temp.add(app.getUser(AppClass.M));
             if(PB.isChecked())
-                temp.add(app.getUser(Names.PB));
+                temp.add(app.getUser(AppClass.PB));
             if(PG.isChecked())
-                temp.add(app.getUser(Names.PG));
+                temp.add(app.getUser(AppClass.PG));
 
             app.insertFood(food,temp.iterator());
             foodTV.setText("");

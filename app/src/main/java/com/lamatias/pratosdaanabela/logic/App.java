@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 public interface App {
 
-    User getUser(Names name);
+    User getUser(String name);
 
     void insertFood(String food, Iterator<User> users) throws FoodAlreadyExists;
 
@@ -15,4 +15,6 @@ public interface App {
     void deleteFood(Food food);
 
     Iterator<User> getUsers();
+
+    Iterator<Food> getUsersFood(String name);
 }

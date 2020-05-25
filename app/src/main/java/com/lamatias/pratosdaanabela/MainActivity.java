@@ -1,12 +1,11 @@
 package com.lamatias.pratosdaanabela;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.lamatias.pratosdaanabela.logic.App;
 import com.lamatias.pratosdaanabela.logic.AppClass;
@@ -108,13 +107,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void usersButton(View view){
-        Intent intent = new Intent(this, UsersActivity.class);
-        intent.putExtra ("app", (Serializable) app);
-        finish ( );
-        startActivity(intent);
-    }
-
-    public void foodsButton(View view){
         Intent intent = new Intent(this, FoodsActivity.class);
         intent.putExtra ("app", (Serializable) app);
         finish ( );

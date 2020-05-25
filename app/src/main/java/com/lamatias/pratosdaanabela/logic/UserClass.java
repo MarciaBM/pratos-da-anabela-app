@@ -1,13 +1,14 @@
 package com.lamatias.pratosdaanabela.logic;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 public class UserClass implements User, Serializable {
 
     private String name;
-    private List<String> foods;
+    private List<Food> foods;
 
     public UserClass(String name){
         this.name = name;
@@ -20,12 +21,17 @@ public class UserClass implements User, Serializable {
     }
 
     @Override
-    public void insertFood(String food){
+    public void insertFood(Food food) {
         foods.add(food);
     }
 
     @Override
-    public void deleteFood(String food){
+    public void deleteFood(Food food) {
         foods.remove(food);
+    }
+
+    @Override
+    public Iterator<Food> getFoods() {
+        return foods.iterator();
     }
 }
