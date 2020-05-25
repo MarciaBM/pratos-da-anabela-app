@@ -1,22 +1,21 @@
 package com.lamatias.pratosdaanabela;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
-import android.text.InputFilter;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.lamatias.pratosdaanabela.logic.App;
 import com.lamatias.pratosdaanabela.logic.Food;
@@ -29,9 +28,13 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class UsersActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity implements FoodsAdapter.ItemClickListener,
+        FoodsDialog.DialogClickListener, Serializable {
 
     private App app;
+    private Food food;
+    private FoodsAdapter adapter;
+    private Spinner spinner;
     private static final String FILE = "data.dat";
 
     @Override
@@ -40,14 +43,16 @@ public class UsersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_users);
         app = (App) getIntent().getSerializableExtra("app");
 
-        Spinner spinner = findViewById(R.id.spinner);
+        spinner = findViewById(R.id.spinner);
         ArrayAdapter<String> aa = new ArrayAdapter<String>(this, R.layout.spinner_item);
         aa.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        aa.add("");
+        aa.add("Selecione um utilizador");
         Iterator<User> it = app.getUsers();
         while (it.hasNext())
             aa.add(it.next().getName());
         spinner.setAdapter(aa);
+
+        initializeAdapter();
     }
 
     @Override
@@ -92,24 +97,45 @@ public class UsersActivity extends AppCompatActivity {
     }
 
     private void initializeAdapter(){
-        RecyclerView recycler_view = findViewById(R.id.recyclerview_foods);
+        RecyclerView recycler_view = findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager=new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+        recycler_view.setLayoutManager(layoutManager);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler_view.getContext(),
                 layoutManager.getOrientation());
-        recyclerView.addItemDecoration(dividerItemDecoration);
-        TextView noFood = findViewById(R.id.noFoods);
+        recycler_view.addItemDecoration(dividerItemDecoration);
+        TextView noFood = findViewById(R.id.noFoods2);
         Iterator<Food> it = app.getFoodsIterator();
         if(!it.hasNext()){
+            spinner.setVisibility(View.VISIBLE);
             noFood.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
+            recycler_view.setVisibility(View.GONE);
         } else{
+            spinner.setVisibility(View.VISIBLE);
             noFood.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
+            recycler_view.setVisibility(View.VISIBLE);
         }
         adapter = new FoodsAdapter (this, it);
         adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
+        recycler_view.setAdapter(adapter);
     }
 
+    @Override
+    public void onItemClick(View view, int position) {
+        food = adapter.getItem(position);
+        DialogFragment dialog = new UsersDialog();
+        dialog.show(getSupportFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void onDeleteFoodClick(View view, int position) {
+        food = adapter.getItem(position);
+        DialogFragment dialog = new FoodsDialog();
+        dialog.show(getSupportFragmentManager(), "dialog");
+    }
+
+    @Override
+    public void deleteFood(View view) {
+        app.deleteFood(food);
+        initializeAdapter();
+    }
 }
