@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GeneratorsActivity extends AppCompatActivity {
+public class GeneratorsActivity extends AppCompatActivity implements Serializable {
 
     private App app;
     private static final String FILE = "data.dat";

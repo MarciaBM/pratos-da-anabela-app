@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class InsertActivity extends AppCompatActivity {
+public class InsertActivity extends AppCompatActivity implements Serializable {
 
     private App app;
     private static final String FILE = "data.dat";

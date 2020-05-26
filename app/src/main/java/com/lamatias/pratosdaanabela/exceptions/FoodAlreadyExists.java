@@ -1,6 +1,8 @@
 package com.lamatias.pratosdaanabela.exceptions;
 
-public class FoodAlreadyExists extends Exception {
+import java.io.Serializable;
+
+public class FoodAlreadyExists extends Exception implements Serializable {
     public FoodAlreadyExists(){
         super("Esta comida já existe.");
     }
