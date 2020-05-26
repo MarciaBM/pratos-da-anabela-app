@@ -105,6 +105,7 @@ public class FoodsActivity extends AppCompatActivity implements FoodsAdapter.Ite
         super.onBackPressed();
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("app", (Serializable) app);
+        finish();
         startActivity(intent);
     }
 

@@ -75,6 +75,7 @@ public class GeneratorsActivity extends AppCompatActivity implements Serializabl
         super.onBackPressed ( );
         Intent intent = new Intent (this, MainActivity.class);
         intent.putExtra ("app", (Serializable) app);
+        finish();
         startActivity (intent);
     }
 

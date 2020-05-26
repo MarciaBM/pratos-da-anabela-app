@@ -78,6 +78,7 @@ public class InsertActivity extends AppCompatActivity implements Serializable {
         super.onBackPressed ( );
         Intent intent = new Intent (this, MainActivity.class);
         intent.putExtra ("app", (Serializable) app);
+        finish();
         startActivity (intent);
     }
 
