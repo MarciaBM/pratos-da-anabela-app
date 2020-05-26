@@ -26,4 +26,9 @@ public class FoodClass implements Food, Serializable {
     public Iterator<User> getUsers(){
         return users.iterator();
     }
+
+    @Override
+    public boolean isEatenBy(User user) {
+        return users.contains(user);
+    }
 }

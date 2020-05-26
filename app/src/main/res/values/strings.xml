@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Pratos Da Anabela</string>
+    <string name="noFood">Ainda não existem pratos :(</string>
+    <string name="noFood2">Este comilão ainda não tem pratos :/</string>
 </resources>

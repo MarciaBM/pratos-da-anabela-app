@@ -1,26 +1,25 @@
 package com.lamatias.pratosdaanabela;
 
 import android.app.AlertDialog;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class UsersDialog extends DialogFragment implements Serializable {
 
     private DialogClickListener callback;
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach (context);
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
@@ -37,7 +36,7 @@ public class UsersDialog extends DialogFragment implements Serializable {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final AlertDialog.Builder builder = new AlertDialog.Builder (getActivity ( ));
         // Get the layout inflater
-        final LayoutInflater inflater = getActivity ( ).getLayoutInflater ( );
+        final LayoutInflater inflater = Objects.requireNonNull(getActivity()).getLayoutInflater();
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         final View view = inflater.inflate (R.layout.info_users, null);

@@ -118,10 +118,13 @@ public class FoodsActivity extends AppCompatActivity implements FoodsAdapter.Ite
                 layoutManager.getOrientation());
         recycler_view.addItemDecoration(dividerItemDecoration);
         Iterator<Food> it;
-        if (user.equals("Todos os pratos"))
+        if (user.equals("Todos os pratos")) {
+            noFood.setText(R.string.noFood);
             it = app.getFoodsIterator();
-        else
+        } else {
+            noFood.setText(R.string.noFood2);
             it = app.getUsersFood(user);
+        }
         if (!it.hasNext()) {
             noFood.setVisibility(View.VISIBLE);
             recycler_view.setVisibility(View.GONE);

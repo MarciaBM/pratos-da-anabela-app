@@ -3,6 +3,7 @@ package com.lamatias.pratosdaanabela.logic;
 import com.lamatias.pratosdaanabela.exceptions.FoodAlreadyExists;
 
 import java.util.Iterator;
+import java.util.List;
 
 public interface App {
 
@@ -17,4 +18,6 @@ public interface App {
     Iterator<User> getUsers();
 
     Iterator<Food> getUsersFood(String name);
+
+    String getFoodByUsers(List<User> users);
 }

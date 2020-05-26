@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -20,6 +21,7 @@ public class AppClass implements App, Serializable {
     public static String PG = "Pedro Grilo";
     private SortedMap<String, Food> foods;
     private Map<String, User> users;
+    private Food lastRandom;
 
     public AppClass() {
         foods = new TreeMap<>();
@@ -29,6 +31,7 @@ public class AppClass implements App, Serializable {
         users.put(M, new UserClass(M));
         users.put(PB, new UserClass(PB));
         users.put(PG, new UserClass(PG));
+        lastRandom = null;
     }
 
     @Override
@@ -45,9 +48,7 @@ public class AppClass implements App, Serializable {
             throw new FoodAlreadyExists();
         Food f = new FoodClass(food, u.iterator());
         foods.put(food, f);
-        Iterator<User> it = u.iterator();
-        while (it.hasNext())
-            it.next().insertFood(f);
+        for (User user : u) user.insertFood(f);
     }
 
     @Override
@@ -72,5 +73,34 @@ public class AppClass implements App, Serializable {
     public Iterator<Food> getUsersFood(String name) {
         User u = users.get(name);
         return u.getFoods();
+    }
+
+    @Override
+    public String getFoodByUsers(List<User> users) {
+        List<Food> food = new LinkedList<>();
+        for (Food f : foods.values()) {
+            Iterator<User> it2 = users.iterator();
+            boolean notEaten = true;
+            while (it2.hasNext()) {
+                if (!f.isEatenBy(it2.next()))
+                    notEaten = false;
+            }
+            if (notEaten)
+                food.add(f);
+        }
+
+        if (food.isEmpty())
+            return "Nenhuma ideia :(";
+        else if (food.size() == 1)
+            return food.get(0).getFood() + " (única hipótese)";
+        else {
+            Random rand = new Random();
+            Food random;
+            do {
+                random = food.get(rand.nextInt(food.size()));
+            } while (random == lastRandom);
+            lastRandom = random;
+            return random.getFood();
+        }
     }
 }
