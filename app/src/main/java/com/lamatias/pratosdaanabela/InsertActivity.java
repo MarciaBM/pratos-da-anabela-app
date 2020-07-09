@@ -19,25 +19,22 @@ import com.lamatias.pratosdaanabela.logic.App;
 import com.lamatias.pratosdaanabela.logic.AppClass;
 import com.lamatias.pratosdaanabela.logic.User;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class InsertActivity extends AppCompatActivity implements Serializable {
+public class InsertActivity extends AppCompatActivity {
 
     private App app;
-    private static final String FILE = "data.dat";
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insert);
-        app= (App) getIntent ().getSerializableExtra ("app");
+        db = new DBHelper(this);
+        app = (App) getIntent().getSerializableExtra("app");
     }
 
     @Override
@@ -57,19 +54,6 @@ public class InsertActivity extends AppCompatActivity implements Serializable {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity (intent);
             finish();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        File file = new File (getApplicationContext ( ).getFilesDir ( ), FILE);
-        try {
-            ObjectOutputStream oout = new ObjectOutputStream (new FileOutputStream(file.getAbsolutePath ( )));
-            oout.writeObject (app);
-            oout.close ( );
-        }catch(IOException e){
-            Toast.makeText (getApplicationContext ( ), e.getMessage ( ), Toast.LENGTH_LONG).show ( );
         }
     }
 
@@ -99,20 +83,23 @@ public class InsertActivity extends AppCompatActivity implements Serializable {
                 throw new NoUsersSelected();
 
             List<User> temp = new ArrayList<>();
-            if(B.isChecked())
+            if (B.isChecked())
                 temp.add(app.getUser(AppClass.B));
-            if(G.isChecked())
+            if (G.isChecked())
                 temp.add(app.getUser(AppClass.G));
-            if(M.isChecked())
+            if (M.isChecked())
                 temp.add(app.getUser(AppClass.M));
-            if(PB.isChecked())
+            if (PB.isChecked())
                 temp.add(app.getUser(AppClass.PB));
-            if(PG.isChecked())
+            if (PG.isChecked())
                 temp.add(app.getUser(AppClass.PG));
 
-            app.insertFood(food,temp.iterator());
+            app.insertFood(food, temp.iterator());
+            db.insertFood(food);
+            for (int i = 0; i < temp.size(); i++)
+                db.insertEating(temp.get(i).getName(), food);
             foodTV.setText("");
-            Toast.makeText (getApplicationContext ( ), "Prato inserido com sucesso! :)", Toast.LENGTH_LONG).show ( );
+            Toast.makeText(getApplicationContext(), "Prato inserido com sucesso! :)", Toast.LENGTH_LONG).show();
 
         }catch (NoUsersSelected|EmptyFieldsException|FoodAlreadyExists e){
             Toast.makeText (getApplicationContext ( ), e.getMessage ( ), Toast.LENGTH_LONG).show ( );

@@ -10,7 +10,7 @@ public class UserClass implements User, Serializable {
     private String name;
     private List<Food> foods;
 
-    public UserClass(String name){
+    public UserClass(String name) {
         this.name = name;
         foods = new LinkedList<>();
     }

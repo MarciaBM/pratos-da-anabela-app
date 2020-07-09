@@ -8,4 +8,6 @@ public interface Food {
     Iterator<User> getUsers();
 
     boolean isEatenBy(User user);
+
+    void insertUser(User user);
 }

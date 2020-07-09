@@ -48,7 +48,8 @@ public class AppClass implements App, Serializable {
             throw new FoodAlreadyExists();
         Food f = new FoodClass(food, u.iterator());
         foods.put(food, f);
-        for (User user : u) user.insertFood(f);
+        for (User user : u)
+            user.insertFood(f);
     }
 
     @Override

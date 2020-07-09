@@ -10,11 +10,11 @@ public class FoodClass implements Food, Serializable {
     private String food;
     private List<User> users;
 
-    public FoodClass (String food, Iterator<User> users){
+    public FoodClass(String food, Iterator<User> users) {
         this.food = food;
         this.users = new LinkedList<>();
         while (users.hasNext())
-            this.users.add(users.next());
+            insertUser(users.next());
     }
 
     @Override
@@ -23,12 +23,17 @@ public class FoodClass implements Food, Serializable {
     }
 
     @Override
-    public Iterator<User> getUsers(){
+    public Iterator<User> getUsers() {
         return users.iterator();
     }
 
     @Override
     public boolean isEatenBy(User user) {
         return users.contains(user);
+    }
+
+    @Override
+    public void insertUser(User user) {
+        users.add(user);
     }
 }

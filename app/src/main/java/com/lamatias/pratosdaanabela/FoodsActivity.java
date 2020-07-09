@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
@@ -22,26 +21,23 @@ import com.lamatias.pratosdaanabela.logic.App;
 import com.lamatias.pratosdaanabela.logic.Food;
 import com.lamatias.pratosdaanabela.logic.User;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Iterator;
 
 public class FoodsActivity extends AppCompatActivity implements FoodsAdapter.ItemClickListener,
-        UsersDialog.DialogClickListener, FoodsDialog.DialogClickListener, Serializable {
+        UsersDialog.DialogClickListener, FoodsDialog.DialogClickListener {
 
     private App app;
     private Food food;
     private FoodsAdapter adapter;
-    private static final String FILE = "data.dat";
     private String selectedUser;
+    private DBHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foods);
+        db = new DBHelper(this);
         app = (App) getIntent().getSerializableExtra("app");
 
         Spinner spinner = findViewById(R.id.spinner);
@@ -67,6 +63,7 @@ public class FoodsActivity extends AppCompatActivity implements FoodsAdapter.Ite
         });
     }
 
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -88,19 +85,6 @@ public class FoodsActivity extends AppCompatActivity implements FoodsAdapter.Ite
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-        File file = new File(getApplicationContext().getFilesDir(), FILE);
-        try {
-            ObjectOutputStream oout = new ObjectOutputStream(new FileOutputStream(file.getAbsolutePath()));
-            oout.writeObject(app);
-            oout.close();
-        } catch (IOException e) {
-            Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(this, MainActivity.class);
@@ -118,6 +102,7 @@ public class FoodsActivity extends AppCompatActivity implements FoodsAdapter.Ite
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recycler_view.getContext(),
                 layoutManager.getOrientation());
         recycler_view.addItemDecoration(dividerItemDecoration);
+
         Iterator<Food> it;
         if (user.equals("Todos os pratos")) {
             noFood.setText(R.string.noFood);
@@ -161,6 +146,7 @@ public class FoodsActivity extends AppCompatActivity implements FoodsAdapter.Ite
     @Override
     public void deleteFood(View view) {
         app.deleteFood(food);
+        db.deleteFood(food.getFood());
         initializeAdapter(selectedUser);
     }
 
